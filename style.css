@@ -1,0 +1,235 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background: #111;
+  color: #fff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#board {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  height: 100dvh;
+}
+
+@media (orientation: portrait) {
+  #board {
+    flex-direction: column;
+  }
+}
+
+#board.swapped {
+  flex-direction: row-reverse;
+}
+
+@media (orientation: portrait) {
+  #board.swapped {
+    flex-direction: column-reverse;
+  }
+}
+
+.team {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: var(--bg, #333);
+  color: var(--fg, #fff);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: background-color 0.2s, filter 0.1s;
+}
+
+.team.pressing {
+  filter: brightness(0.9);
+}
+
+.name {
+  font-size: clamp(1.25rem, 6vmin, 3rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.score {
+  font-size: min(45vw, 30vh);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (orientation: landscape) {
+  .score {
+    font-size: min(28vw, 55vh);
+  }
+}
+
+.score.long {
+  font-size: min(30vw, 30vh);
+}
+
+@media (orientation: landscape) {
+  .score.long {
+    font-size: min(18vw, 45vh);
+  }
+}
+
+.score.bump {
+  animation: bump 0.18s ease-out;
+}
+
+.score.drop {
+  animation: drop 0.18s ease-out;
+}
+
+@keyframes bump {
+  50% { transform: scale(1.12); }
+}
+
+@keyframes drop {
+  50% { transform: scale(0.88); }
+}
+
+.controls {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1;
+}
+
+@media (orientation: landscape) {
+  .controls {
+    flex-direction: column;
+  }
+}
+
+.controls button {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.controls button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Configuração */
+
+dialog {
+  margin: auto;
+  width: min(92vw, 26rem);
+  max-height: 90dvh;
+  padding: 1.25rem;
+  border: 0;
+  border-radius: 1rem;
+  background: #1c1c1e;
+  color: #fff;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+dialog h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.team-config {
+  border: 0;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+.team-config input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #3a3a3c;
+  border-radius: 0.6rem;
+  background: #2c2c2e;
+  color: #fff;
+  font-size: 1rem;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.swatch {
+  aspect-ratio: 1;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+}
+
+.swatch[aria-checked="true"] {
+  border-color: #fff;
+  box-shadow: inset 0 0 0 2px #1c1c1e;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #a1a1a6;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.done {
+  width: 100%;
+  padding: 0.8rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: #0a84ff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}

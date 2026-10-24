@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Placar</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="board">
+    <section class="team" data-team="0">
+      <div class="name"></div>
+      <div class="score">0</div>
+    </section>
+    <section class="team" data-team="1">
+      <div class="name"></div>
+      <div class="score">0</div>
+    </section>
+
+    <nav class="controls">
+      <button type="button" id="btn-settings" aria-label="Configurar times">⚙</button>
+      <button type="button" id="btn-reset" aria-label="Zerar placar">↺</button>
+      <button type="button" id="btn-swap" aria-label="Trocar lados">⇄</button>
+    </nav>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog">
+      <h2>Times</h2>
+      <fieldset class="team-config" data-team="0">
+        <input type="text" name="name" maxlength="16" placeholder="Nome do time" autocomplete="off">
+        <div class="palette" role="radiogroup" aria-label="Cor"></div>
+      </fieldset>
+      <fieldset class="team-config" data-team="1">
+        <input type="text" name="name" maxlength="16" placeholder="Nome do time" autocomplete="off">
+        <div class="palette" role="radiogroup" aria-label="Cor"></div>
+      </fieldset>
+      <p class="hint">Toque para somar 1 · segure para tirar 1</p>
+      <button type="submit" class="done">Pronto</button>
+    </form>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
