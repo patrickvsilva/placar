@@ -8,9 +8,11 @@ Placar simples para celular, com dois times, que funciona com a tela em pé ou d
 
 - **Tocar** na metade de um time soma 1 ponto.
 - **Segurar** (meio segundo) tira 1 ponto.
-- ⚙ edita o nome e a cor de cada time.
-- ↺ zera o placar.
-- ⇄ troca os times de lado.
+Os botões no centro da tela:
+
+- **Configurar**: edita o nome e a cor de cada time.
+- **Zerar**: zera o placar.
+- **Trocar**: troca os times de lado.
 
 O placar e a configuração ficam salvos no aparelho. Enquanto o placar está aberto, a tela não apaga. Para instalar, use "Adicionar à tela inicial" no navegador; depois disso funciona também sem internet.
 

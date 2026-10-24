@@ -151,6 +151,18 @@ body {
   touch-action: manipulation;
 }
 
+.controls svg {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .controls button:active {
   background: rgba(255, 255, 255, 0.2);
 }
