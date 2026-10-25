@@ -57,7 +57,7 @@ body {
     max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
   background: var(--bg, #333);
   color: var(--fg, #fff);
-  touch-action: manipulation;
+  touch-action: none;
   cursor: pointer;
   transition: background-color 0.2s, filter 0.1s;
 }

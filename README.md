@@ -6,8 +6,9 @@ Placar simples para celular, com dois times, que funciona com a tela em pé ou d
 
 ## Como usar
 
-- **Tocar** na metade de um time soma 1 ponto.
-- **Segurar** (meio segundo) tira 1 ponto.
+- **Tocar** ou **arrastar para cima** na metade de um time soma 1 ponto.
+- **Arrastar para baixo** tira 1 ponto.
+- **Segurar** vai tirando pontos, cada vez mais rápido, até você soltar ou o placar chegar a 0.
 Os botões no centro da tela:
 
 - **Configurar**: edita o nome e a cor de cada time.

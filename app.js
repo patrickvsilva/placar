@@ -3,6 +3,10 @@
 const STORAGE_KEY = 'placar:v1';
 const LONG_PRESS_MS = 500;
 const MOVE_TOLERANCE_PX = 12;
+const SWIPE_PX = 40;
+const REPEAT_START_MS = 250;
+const REPEAT_MIN_MS = 80;
+const REPEAT_ACCEL = 0.85;
 
 const PALETTE = [
   '#e53935', '#fb8c00', '#fdd835', '#43a047', '#00897b',
@@ -88,28 +92,47 @@ function changeScore(i, delta) {
   score.classList.add(cls);
 }
 
-// --- Gestos: toque = +1, segurar = -1 ---
+// --- Gestos ---
+// toque ou arrastar para cima = +1, arrastar para baixo = -1,
+// segurar = vai tirando pontos até soltar ou chegar a 0
 
 sections.forEach((section, i) => {
   let press = null;
 
-  function cancel() {
+  function end() {
     if (!press) return;
     clearTimeout(press.timer);
     press = null;
     section.classList.remove('pressing');
   }
 
+  function repeatDecrement(delay) {
+    press.repeating = true;
+    changeScore(i, -1);
+    if (state.teams[i].score === 0) {
+      navigator.vibrate?.(120);
+      clearTimeout(press.timer);
+      return;
+    }
+    navigator.vibrate?.(15);
+    const next = Math.max(REPEAT_MIN_MS, delay * REPEAT_ACCEL);
+    press.timer = setTimeout(() => repeatDecrement(next), delay);
+  }
+
   section.addEventListener('pointerdown', (e) => {
     if (press) return;
+    try {
+      section.setPointerCapture(e.pointerId);
+    } catch {
+      // ponteiro já inativo: segue sem captura
+    }
     press = {
       id: e.pointerId,
       x: e.clientX,
       y: e.clientY,
+      repeating: false,
       timer: setTimeout(() => {
-        changeScore(i, -1);
-        navigator.vibrate?.(40);
-        cancel();
+        if (state.teams[i].score > 0) repeatDecrement(REPEAT_START_MS);
       }, LONG_PRESS_MS),
     };
     section.classList.add('pressing');
@@ -117,18 +140,28 @@ sections.forEach((section, i) => {
   });
 
   section.addEventListener('pointermove', (e) => {
-    if (!press || e.pointerId !== press.id) return;
-    if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > MOVE_TOLERANCE_PX) cancel();
+    if (!press || e.pointerId !== press.id || press.repeating) return;
+    if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > MOVE_TOLERANCE_PX) {
+      clearTimeout(press.timer);
+    }
   });
 
   section.addEventListener('pointerup', (e) => {
     if (!press || e.pointerId !== press.id) return;
-    cancel();
-    changeScore(i, +1);
+    const { repeating, x, y } = press;
+    end();
+    if (repeating) return;
+
+    const dx = e.clientX - x;
+    const dy = e.clientY - y;
+    if (Math.abs(dy) >= SWIPE_PX && Math.abs(dy) > Math.abs(dx)) {
+      changeScore(i, dy < 0 ? +1 : -1);
+    } else if (Math.hypot(dx, dy) <= MOVE_TOLERANCE_PX) {
+      changeScore(i, +1);
+    }
   });
 
-  section.addEventListener('pointercancel', cancel);
-  section.addEventListener('pointerleave', cancel);
+  section.addEventListener('pointercancel', end);
   section.addEventListener('contextmenu', (e) => e.preventDefault());
 });
 
